@@ -156,6 +156,12 @@ const SCENARIOS = [
         description: '6 guys. 5 beds. 1 couch.\n\nSomebody\'s sleeping on that IKEA nightmare tonight. The Airbnb listing said "sleeps 6" but apparently that was aspirational.',
         question: 'How do we decide who gets the couch?',
         type: 'eliminate_one',
+        options: [
+            { name: 'Arm Wrestling Tournament', desc: 'Loser of a random matchup gets the couch. Strength rules.' },
+            { name: 'Coin Toss of Fate', desc: 'Two names drawn at random. Coin decides. No appeals.' },
+            { name: 'Dad Joke Sudden Death', desc: 'Worst joke = worst sleep. Charisma on the line.' },
+            { name: 'Last Man Standing', desc: 'Staring contest. Blink and you\'re on the cushions.' },
+        ],
         resultPrefix: 'sleeps on the couch tonight',
         resultEmoji: '🛋️',
         aftermath: [
