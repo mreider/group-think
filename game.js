@@ -1,5 +1,7 @@
 // GROUP THINK - Austin Trip Decision Simulator
 // For Jeff, Rossiter, Reider, Adan, Jeremy & Doug
+const VERSION = 'v0.3';
+console.log(`Group Think ${VERSION} loaded`);
 
 const COLORS = {
     bg: 0x1a1a2e,
@@ -324,6 +326,13 @@ class TitleScene extends Phaser.Scene {
             ease: 'Sine.easeInOut',
         });
 
+        // Version
+        this.add.text(w / 2, h - 10, VERSION, {
+            fontSize: '9px',
+            fontFamily: 'Courier New, monospace',
+            color: '#444',
+        }).setOrigin(0.5);
+
         // Flicker title
         this.tweens.add({
             targets: title,
@@ -357,9 +366,9 @@ class CharacterSelectScene extends Phaser.Scene {
         }).setOrigin(0.5);
 
         // Character cards
-        const startY = 85;
-        const cardH = 80;
-        const padding = 8;
+        const startY = 80;
+        const cardH = 72;
+        const padding = 6;
 
         NAMES.forEach((name, i) => {
             const c = CHARACTERS[name];
@@ -558,29 +567,30 @@ class ScenarioScene extends Phaser.Scene {
         }).setOrigin(0.5);
 
         // Description
-        this.add.text(w / 2, 90, scenario.description, {
-            fontSize: '12px',
+        const descText = this.add.text(w / 2, 85, scenario.description, {
+            fontSize: '11px',
             fontFamily: 'Courier New, monospace',
             color: COLORS.text,
             wordWrap: { width: w - 40 },
             align: 'center',
-            lineSpacing: 4,
+            lineSpacing: 3,
         }).setOrigin(0.5, 0);
 
-        // Question
-        const qY = 210;
+        // Question — positioned dynamically after description
+        const qY = descText.y + descText.height + 15;
         this.add.text(w / 2, qY, scenario.question, {
-            fontSize: '15px',
+            fontSize: '14px',
             fontFamily: 'Courier New, monospace',
             fontStyle: 'bold',
             color: '#f5a623',
             align: 'center',
         }).setOrigin(0.5);
 
-        // Options
-        const optStartY = qY + 40;
-        const optH = 65;
-        const optPad = 10;
+        // Options — dynamically positioned, sized to fit remaining space
+        const optStartY = qY + 30;
+        const availableH = h - optStartY - 15;
+        const optPad = 8;
+        const optH = Math.min(65, (availableH - optPad * 3) / 4);
 
         scenario.options.forEach((opt, i) => {
             const y = optStartY + i * (optH + optPad);
@@ -867,10 +877,12 @@ class ResolutionScene extends Phaser.Scene {
                     }
 
                     // Continue button
+                    const h = this.cameras.main.height;
                     this.time.delayedCall(1500, () => {
-                        const cBtn = this.add.rectangle(w / 2, startY + 160, 200, 44, COLORS.green)
+                        const cBtnY = Math.min(startY + 160, h - 40);
+                        const cBtn = this.add.rectangle(w / 2, cBtnY, 200, 44, COLORS.green)
                             .setInteractive({ useHandCursor: true });
-                        this.add.text(w / 2, startY + 160, 'SEE RESULT →', {
+                        this.add.text(w / 2, cBtnY, 'SEE RESULT →', {
                             fontSize: '13px',
                             fontFamily: 'Courier New, monospace',
                             fontStyle: 'bold',
@@ -1118,7 +1130,7 @@ class SummaryScene extends Phaser.Scene {
         });
 
         // Footer
-        this.add.text(w / 2, h - 12, 'Group Think — Austin Edition', {
+        this.add.text(w / 2, h - 12, `Group Think — Austin Edition ${VERSION}`, {
             fontSize: '8px',
             fontFamily: 'Courier New, monospace',
             color: '#444',
